@@ -1,0 +1,282 @@
+/* owner: UI (D2.2; drawer by LEAD) */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.app-header {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: var(--header-height);
+  padding: 0 var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.app-menu-btn {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 150ms var(--ease), background 150ms var(--ease);
+}
+
+.app-menu-btn:hover,
+.app-menu-btn:focus-visible {
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+.app-wordmark {
+  font-family: var(--font-display);
+  font-size: 18px;
+  letter-spacing: 0.32em;
+  text-decoration: none;
+}
+
+.app-wordmark--small {
+  font-size: 14px;
+}
+
+/* ── Drawer ──────────────────────────────────────────────────────────── */
+.app-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(2, 3, 6, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 280ms var(--ease);
+}
+
+.app-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.app-drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  width: min(320px, 86vw);
+  padding: var(--space-3) var(--space-4) var(--space-6);
+  border-right: 1px solid var(--color-border);
+  background: #07090e;
+  transform: translateX(-102%);
+  transition: transform 320ms var(--ease);
+}
+
+.app-drawer.is-open {
+  transform: none;
+  box-shadow: 24px 0 60px rgba(0, 0, 0, 0.45);
+}
+
+.app-drawer__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: calc(var(--header-height) - var(--space-3));
+  padding-left: var(--space-2);
+}
+
+.app-drawer__list {
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.app-drawer {
+  overflow-y: auto;
+}
+
+.app-drawer__row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+}
+
+.app-drawer__row > a {
+  flex: 1;
+}
+
+.app-drawer__list .app-drawer__row > a {
+  border-bottom: 0;
+}
+
+.app-drawer__expand {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 150ms var(--ease), background 150ms var(--ease);
+}
+
+.app-drawer__expand:hover,
+.app-drawer__expand:focus-visible {
+  color: var(--color-text);
+  background: var(--color-surface);
+  outline: none;
+}
+
+.app-drawer__expand svg {
+  transition: transform 220ms var(--ease);
+}
+
+.app-drawer__expand.is-open svg {
+  transform: rotate(180deg);
+  color: var(--color-accent);
+}
+
+/* Collapsible planet list under Planet Viewport. */
+.app-drawer__sub {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms var(--ease);
+}
+
+.app-drawer__sub.is-open {
+  grid-template-rows: 1fr;
+}
+
+.app-drawer__sub-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.app-drawer__sub.is-open .app-drawer__sub-inner {
+  max-height: 42vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+}
+
+.app-drawer__group {
+  padding: var(--space-2) 0 var(--space-1) var(--space-4);
+}
+
+.app-drawer__host {
+  margin: 0 0 2px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-missing);
+}
+
+.app-drawer__list .app-drawer__group a {
+  padding: 6px var(--space-2);
+  border: 0;
+  font-family: var(--font-ui);
+  font-size: 14px;
+}
+
+.app-drawer__list .app-drawer__group a:hover,
+.app-drawer__list .app-drawer__group a:focus-visible {
+  padding-left: var(--space-3);
+}
+
+.app-drawer__empty {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.app-drawer__list a {
+  display: block;
+  padding: 13px var(--space-2);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 150ms var(--ease), padding 200ms var(--ease);
+}
+
+.app-drawer__list a:hover,
+.app-drawer__list a:focus-visible {
+  color: var(--color-text);
+  padding-left: var(--space-4);
+  outline: none;
+}
+
+.app-drawer__list a.active {
+  color: var(--color-text);
+  box-shadow: inset 2px 0 0 var(--color-accent);
+}
+
+/* Staggered entrance of menu items. */
+.app-drawer__list li {
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 260ms var(--ease), transform 260ms var(--ease);
+  transition-delay: calc(80ms + var(--i) * 40ms);
+}
+
+.app-drawer.is-open .app-drawer__list li {
+  opacity: 1;
+  transform: none;
+}
+
+.app-drawer__dev {
+  margin-top: var(--space-6);
+  padding: 0 var(--space-2);
+  font-size: 12px;
+  color: var(--color-missing);
+  text-decoration: none;
+}
+
+.app-drawer__dev:hover {
+  color: var(--color-text-muted);
+}
+
+.app-drawer__foot {
+  margin: auto 0 0;
+  padding: 0 var(--space-2);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 600px) {
+  .app-header {
+    padding: 0 var(--space-3);
+    gap: var(--space-2);
+  }
+  .app-wordmark {
+    font-size: 15px;
+    letter-spacing: 0.24em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-drawer,
+  .app-backdrop,
+  .app-drawer__list li {
+    transition: none;
+  }
+}

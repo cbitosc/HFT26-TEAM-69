@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Celestria</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; height: 100%; background: #000; overflow: hidden;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #e8efff; }
+    canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+    /* ---------- letterbox bars: slide in once the flight begins ---------- */
+    .bar { position: fixed; left: 0; right: 0; background: #000; z-index: 5; pointer-events: none;
+      height: 0; transition: height 1.1s cubic-bezier(.22,.9,.26,1); }
+    #bar-top { top: 0; }
+    #bar-bottom { bottom: 0; }
+    body.flight #bar-top, body.flight #bar-bottom { height: 6.5vh; }
+
+    /* ---------- title ---------- */
+    #title { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; pointer-events: none; transition: opacity 1.3s ease; z-index: 4; }
+    #title h1 { margin: 0; font-family: "Cinzel", serif; font-weight: 600; letter-spacing: 0.4em;
+      font-size: clamp(2.4rem, 8vw, 6.5rem);
+      text-shadow: 0 0 30px rgba(0, 0, 0, 0.9), 0 0 70px rgba(127, 196, 255, 0.55), 0 0 140px rgba(127, 196, 255, 0.25); }
+    #title h1 .letter { display: inline-block; opacity: 0; transform: translateY(0.6em) scale(0.85);
+      animation: letter-in 0.9s cubic-bezier(.17,.84,.44,1) forwards; }
+    @keyframes letter-in { to { opacity: 1; transform: translateY(0) scale(1); } }
+    #title p { margin-top: 1.4rem; letter-spacing: 0.25em; font-size: 0.85rem; opacity: 0.85;
+      text-shadow: 0 0 12px rgba(0, 0, 0, 0.9); animation: pulse 2.2s ease-in-out infinite; }
+    #title p.hint-fixed { animation: pulse 1.8s ease-in-out infinite; }
+
+    /* ---------- loading progress ---------- */
+    #progress-track { width: min(40vw, 260px); height: 2px; margin-top: 0.9rem; background: rgba(255,255,255,0.12);
+      border-radius: 2px; overflow: hidden; }
+    #progress-bar { width: 100%; height: 100%; background: linear-gradient(90deg, #6fa8ff, #bfe0ff);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease;
+      box-shadow: 0 0 10px rgba(127,196,255,0.8); }
+    body.started #progress-track { display: none; }
+
+    /* ---------- planet label ---------- */
+    #label { position: fixed; right: 6%; bottom: 13%; text-align: right; max-width: 80vw;
+      opacity: 0; transform: translateY(14px); pointer-events: none; z-index: 3;
+      text-shadow: 0 0 14px rgba(0, 0, 0, 0.95); }
+    #label.show { opacity: 1; transform: translateY(0); transition: opacity 0.9s cubic-bezier(.16,.85,.33,1), transform 0.9s cubic-bezier(.16,.85,.33,1); }
+    #label:not(.show) { transition: opacity 0.4s ease, transform 0.4s ease; }
+    #label h2 { margin: 0; font-family: "Cinzel", serif; font-weight: 600; letter-spacing: 0.1em;
+      font-size: clamp(1.6rem, 4vw, 2.8rem); }
+    #label .rule { width: 0; height: 1px; margin: 0.5rem 0 0.5rem auto; background: rgba(169,212,255,0.75);
+      box-shadow: 0 0 8px rgba(127,196,255,0.7); }
+    #label.show .rule { width: 100%; transition: width 0.9s cubic-bezier(.16,.85,.33,1) 0.15s; }
+    #label p { margin: 0; font-size: clamp(1rem, 2vw, 1.3rem); color: #a9d4ff; letter-spacing: 0.02em; }
+    #label small { display: block; margin-top: 0.9rem; letter-spacing: 0.2em; font-size: 0.78rem;
+      text-transform: uppercase; opacity: 0.7; animation: pulse 2.2s ease-in-out infinite; }
+
+    #fade { position: fixed; inset: 0; background: #000; opacity: 0; pointer-events: none; z-index: 6; }
+    #mute { position: fixed; top: 14px; right: 14px; background: rgba(255, 255, 255, 0.08);
+      color: #e8efff; border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 6px;
+      padding: 6px 10px; font: inherit; font-size: 12px; cursor: pointer; z-index: 7; }
+    #credit { position: fixed; left: 12px; bottom: 8px; font-size: 11px; opacity: 0.5; z-index: 7; }
+    @keyframes pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.9; } }
+    body.started #title { opacity: 0; }
+  </style>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="bar-top" class="bar"></div>
+  <div id="bar-bottom" class="bar"></div>
+  <div id="title">
+    <h1>CELESTRIA</h1>
+    <p>LOADING</p>
+    <div id="progress-track"><div id="progress-bar"></div></div>
+  </div>
+  <div id="label"><h2></h2><div class="rule"></div><p></p><small></small></div>
+  <div id="fade"></div>
+  <button id="mute" type="button">Sound: on</button>
+  <div id="credit">Celestria v1.7 &middot; Earth model: Akshat, CC BY 4.0</div>
+  <script type="module" src="main.js?v=17"></script>
+</body>
+</html>

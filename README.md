@@ -1,89 +1,33 @@
-# 🚀 CBIT Hacktoberfest '26 — Project Starter Repository
+# CELESTRIA
 
-> **Official Public Starter Repository for CBIT Hacktoberfest '26**  
-> *Chaitanya Bharathi Institute of Technology (CBIT), Hyderabad*
+**Explore Worlds Beyond Our Solar System.**
 
----
+An interactive 3D exoplanet exploration platform built on NASA Exoplanet Archive data, with a grounded AI astronomer.
 
-## 📋 Team Information
+Project rules, architecture, ownership and the roadmap live in [CLAUDE.md](CLAUDE.md). Read it before your first PR.
 
-| Attribute | Details |
-| :--- | :--- |
-| **Team Name** | **Hackathon Janta Party** |
-| **Team Number** | `TEAM-69` (`HFT26-TEAM-69`) |
-| **Registration ID** | `HFEST26-WEYGJ85C` |
-| **Problem Track** | **Track Selection in Progress** |
-| **Domain** | `General Track` |
-| **Team Leader** | S. Nrusimha Sricharan (srungaramnrusimhasricharan@gmail.com) |
-| **Institution** | CBIT hyderabad |
+## Getting started
 
-### 👥 Team Members
-
-| # | Name | Email | Institution |
-| :--- | :--- | :--- | :--- |
-| 1 | Dhanunjay Dasoju | dhanunjaydasoju@gmail.com | CBIT hyderabad |
-| 2 | Sai Krishna | saikrishnasept42007@gmail.com | CBIT hyderabad |
-| 3 | Varshith Kompally | kvarshith000@gmail.com | CBIT hyderabad |
-| 4 | Poloju Shashank | polojushashank018@gmail.com | CBIT hyderabad |
-
----
-
-## 🎯 Problem Statement
-
-### **Track Selection in Progress**
-*Domain:* **General Track**
-
-Details regarding the chosen problem statement track and technical requirements.
-
----
-
-## 🛠️ Contribution & Submission Workflow
-
-All teams must follow the official fork-and-pull-request workflow:
-
-1. **Fork this Repository**:
-   - One team member should click the **Fork** button at the top right to fork this upstream repository to your personal/team GitHub account.
-2. **Add Collaborators**:
-   - In your forked repository, navigate to **Settings > Collaborators** and invite all your registered team members.
-3. **Clone & Develop Locally**:
-   ```bash
-   git clone https://github.com/<your-username>/HFT26-TEAM-69.git
-   cd HFT26-TEAM-69
-   git checkout -b feature/prototype
-   ```
-4. **Commit & Push Regularly**:
-   - Make atomic, descriptive commits throughout the hackathon.
-   ```bash
-   git add .
-   git commit -m "feat: implement core solution architecture"
-   git push origin feature/prototype
-   ```
-5. **Open Pull Request (PR) for Final Submission**:
-   - When ready for evaluation, open a **Pull Request** from your fork's `main` branch back to this upstream repository's `main` branch.
-   - **PR Title Format**: `[SUBMISSION] TEAM-69 - Hackathon Janta Party - Track Selection in Progress`
-   - **PR Description Checklist**:
-     - 📌 Solution Overview & Approach
-     - 🏗️ Architecture & Tech Stack Details
-     - 🚀 Local Setup & Installation Instructions
-     - 🎥 Demo Video Link / Live Deployment URL
-     - 📸 Key Screenshots & Visuals
-
----
-
-## 📁 Recommended Project Structure
-
-```
-.
-├── src/                  # Source code (Frontend / Backend / ML)
-├── docs/                 # Documentation, architecture diagrams, slides
-├── tests/                # Test suites & verification scripts
-├── README.md             # Your project documentation & presentation
-└── LICENSE               # Open-source license (MIT recommended)
+```bash
+npm install
+cp .env.example .env      # add your Featherless key (server-side only)
+npm run dev               # web on http://localhost:5173, API on :8787
 ```
 
----
+| Command | What it does |
+|---|---|
+| `npm run dev` | Vite + API server together |
+| `npm run dev:web` / `npm run dev:server` | one side only |
+| `npm test` | unit tests (Vitest) |
+| `npm run lint` | ESLint |
+| `npm run build && npm start` | production build served by the API server on :8787 |
 
-## ⚠️ Important Rules & Code of Conduct
-* **Upstream Protection**: Do not push directly to this repository's main branch. All evaluation will be conducted on your submitted Pull Request.
-* **Original Work**: All code submitted must be developed during the hackathon timeline. Open-source libraries and frameworks are welcomed with proper attribution.
-* **Code Freeze**: Final Pull Requests must be submitted before the designated hackathon submission deadline.
+The dev-only 3D sandbox is at `/lab`.
+
+## Contributing
+
+1. `git switch main && git pull`
+2. `git switch -c feat/<area>-<short-name>`  (area: `3d`, `ui`, `data`, `ai`)
+3. Edit only files your workstream owns (see CLAUDE.md §4 and §11).
+4. `npm run lint && npm test` before pushing.
+5. Open a PR to `main` with the deliverable ID (e.g. D3.3) and how to test it. The lead reviews and squash-merges.
